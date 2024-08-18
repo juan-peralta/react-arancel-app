@@ -3,18 +3,20 @@ import { useEffect, useState } from "react"
 const App = () => {
 
 const [counter, setCounter] = useState(0)
-const [courses, setCourses] = useState([])
+const [users, setUsers] = useState(null)
 useEffect(() => {
   
   fetch("http://localhost:3000/books")
   .then((res) => res.json())
   .then((data) => {
-    console.log(data)
-    setCourses(data)
-  })
+  
+    setUsers(data)
+  });
 
 }, []); //array de dependencias 
 
+
+if(!users) return <div>cargando....</div>
   return (
      <>
      
@@ -23,11 +25,9 @@ useEffect(() => {
       Counter: {counter} 
       </button>
       <ul>
-            {courses.map((course)=>{
-              <li key={course.CODIGO_UNICO}>{course.TIPO_DE_INSTITUCION}</li>
-            })
-
-            }
+        {users.map((user) => (
+          <li key={user.CODIGO_UNICO}>{user.CODIGO_UNICO}-{user.TIPO_DE_INSTITUCION} {user.NOMBRE_INSTITUCION} {user.NOMBRE_DE_LA_SEDE}{user.NOMBRE_CARRERA}{user.JORNADA}{user.ARANCEL_ANUAL_2024}</li>
+        ))}
       </ul>
      </>
   )
